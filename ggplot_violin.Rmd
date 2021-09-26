@@ -1,0 +1,106 @@
+---
+title: "ggplotFun"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+Now we will be learning some ggplot stuff:
+
+```{r libraries, echo=FALSE}
+library(ggplot2)
+library(dplyr)
+library(plotly)
+data("Theoph")
+theo_data <- Theoph
+data("ToothGrowth")
+tooth <- ToothGrowth
+```
+
+```{r ggplot1}
+
+ggplot(theo_data, aes(factor(Subject), Wt, size = Dose, color = Subject)) + geom_violin(size = 1) #+ facet_grid(. ~ Subject)
+
+```
+
+```{r rearranged}
+theo_data %>%
+  #arrange(Subject) %>%
+  mutate(Subject = factor(Subject, levels = c(1,2))) %>%
+    ggplot(aes(Subject, Time)) + geom_violin()
+
+```
+
+
+
+
+```{r mutate}
+
+a <- Theoph
+
+b <- mutate(a, Subject = NULL)
+
+b = mutate(b, dosagePercentByWeight = (Dose/Wt) *100)
+
+```
+
+```{r teething}
+p <- ggplot(tooth, aes(len, dose))
+p + geom_violin() + facet_grid(. ~ supp)
+
+```
+
+```{r tooth2}
+
+tooth2 <- tooth
+
+tooth2$dose <- as.factor(tooth2$dose)
+
+p1 <- ggplot(tooth2, aes(dose, len, color = dose)) + geom_violin(trim = FALSE, fill = "purple", color = "darkred" )
+p1 + facet_grid(. ~ supp)  + scale_color_brewer(palette = "Dark2") + theme_classic() #scale_color_manual(values = c("#E68F00", "#123456", "#654321")) + 
+  geom_boxplot(width = .1)
+  #stat_summary(fun.data = "mean_sdl", mult = 1, geom = "crossbar", width = .3)
+  #+scale_x_discrete(limits = c("0.5", "2"))
+  
+  
+  #stat_summary(fun.y=median, geom = "point", size = 6, color = "turquoise")
+
+p2 <- ggplot(tooth2, aes(dose, len, fill = supp)) + geom_violin() + geom_dotplot(binaxis = 'y', stackdir = 'centerwhole', position = position_dodge(1))
+p2
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
