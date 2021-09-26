@@ -1,0 +1,55 @@
+---
+title: "Parallel Plots"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r iris parallel plot 1}
+library(hrbrthemes)
+library(GGally)
+library(viridis)
+library(dplyr)
+
+data <- iris
+
+summary(data)
+
+data %>% arrange(desc(Species)) %>%
+ggparcoord(data, 
+           columns = 1:4, groupColumn = 5, order = "anyClass",
+           showPoints = TRUE,
+           scale = "std",
+           title = "Hey we made parallel plot and iris stuff whatev",
+           alphaLines = .3
+           ) +
+  scale_color_manual(values=c( "#69b3a2", "#E8E8E8", "#E8E8E8") ) + theme(plot.title = element_text(size = 10))
+
+```
+
+## part 2
+
+```{r streamgraph}
+summary(iris)
+library(streamgraph)
+
+randdata <- data.frame(
+  year = rep(seq(1990, 2016), each = 10),
+  name = rep(letters[1:10] , 27),
+  value = sample(seq(0, 1, 0.0001), 270)
+)
+
+prettyPlot <- streamgraph(randdata, key ="name", value = "value", date = "year", height = "300px", width = "1000px") %>% sg_legend(show = TRUE, label = "names : ")
+
+
+prettyPlot
+```
+
