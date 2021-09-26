@@ -1,0 +1,62 @@
+---
+title: "Mosaic Plots"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+## Testing out some random dude's code part 1
+
+```{r simple_scatterplot_matrix}
+library(tidyverse)
+library(GGally)
+
+data <- mtcars
+
+#scatter plot base r blah blah blah
+pairs(~ mpg + hp +cyl + wt, data = data, lower.panel = panel.smooth)
+
+#scatter example 2
+pairs(~ mpg + drat + qsec + vs, data = data)
+```
+```{r second_scatterplot}
+library(tidyverse)
+library(GGally)
+
+data <- mtcars
+
+data %>% ggpairs(columns = c("mpg", "hp", "cyl", "wt"), upper = list(continous = wrap('cor', size = 12)))
+
+
+data %>% mutate(cyl = factor(cyl)) %>% #This means we now are working with another variable: cyl and we know it's aggregate values or what it can be split into
+  ggpairs(columns = c("mpg", "hp", "wt", "cyl"),
+          aes(color = cyl),
+          upper = list(continous = wrap('cor', size = 6)),
+          lower = list(combo = wrap("facethist", bins = 30)),
+          diag = list(continous = wrap("densityDiag", alpha = 1))
+          )
+
+```
