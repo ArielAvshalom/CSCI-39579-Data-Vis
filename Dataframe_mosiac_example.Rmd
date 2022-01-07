@@ -1,0 +1,60 @@
+---
+title: "Mosaic"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r dataframe example}
+emp.data <- data.frame(
+   emp_id = c (1:5), 
+   emp_name = c("Rick","Dan","Michelle","Ryan","Gary"),
+   salary = c(623.3,515.2,611.0,729.0,843.25), 
+   
+   start_date = as.Date(c("2012-01-01", "2013-09-23", "2014-11-15", "2014-05-11",
+      "2015-03-27")),
+   stringsAsFactors = FALSE
+)
+
+print(emp.data)
+
+#Refrencing data in the dataset:
+#Selecting a row:
+
+emp.data[1,] #select the first row
+
+emp.data[1] #select the first column
+
+emp.data[1,2] #select the first row followed by the value in the second column
+
+emp.data[1,2] = 'nancy drew'
+
+print(emp.data)
+
+
+summary(emp.data)
+
+mean(emp.data$salary)
+```
+
+```{r music data}
+music = c(210, 194, 170, 110, 190, 406, 730, 290)
+dim(music) = c(2, 2, 2)
+
+dimnames(music) = list(Age = c("Old", "Young"),
+                       Education = c("High", "Low"),
+                       Listen = c("Classical", "Other"))
+
+mosaicplot(music)
+
+mosaicplot(music, col = c(hcl(240),hcl(120)), main = "Classical music")
+
+```
